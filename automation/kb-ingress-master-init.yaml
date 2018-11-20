@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: openmole-ingress-master
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.org/mergeable-ingress-type: master
+  namespace: openmole
+spec:
+  rules:
+  - host: kb-openmole.iscpif.fr

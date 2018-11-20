@@ -1,0 +1,25 @@
+---
+- hosts: '{{ target }}'
+  become: true
+  tasks:
+      - name: update and upgrade
+        raw: apt update && apt upgrade -y
+      - name: download kubernetese key
+        raw: curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+      - name: add kubernetese to sources
+        raw: echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee --append /etc/apt/sources.list.d/kubernetes.list
+      - name: INstall required dependencies
+        raw: apt-get update && apt install linux-image-extra-virtual ca-certificates curl software-properties-common -y
+      - name: preparing docker 1
+        raw: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+      - name: preparing docker 2
+        raw: add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+      - name: update the dependencies
+        raw: apt update 
+      - name: installing docker
+        raw: apt install docker-ce kubelet kubeadm kubectl kubernetes-cni -y
+      - name: installing kubernetes
+        raw: apt-get install -y kubelet kubeadm kubectl docker.io
+      - name: joining nodes to Kubernetese master
+        raw: kubeadm join 134.158.74.86:6443 --token htr68i.a6o6w23366wg7nuu --discovery-token-ca-cert-hash sha256:2c32d3c8d27df3d70a5bee2c935a6899fe4daed3654a22d47c964add60c7be57
+

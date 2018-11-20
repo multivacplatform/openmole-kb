@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: openmole-johndoe-svc
+  namespace: openmole
+  labels:
+    app: openmole-johndoe-svc
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 20000
+    targetPort: 8443
+  selector:
+    app: openmole-johndoe
+  type: NodePort

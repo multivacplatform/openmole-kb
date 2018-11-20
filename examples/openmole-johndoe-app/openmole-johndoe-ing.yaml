@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: openmole-johndoe-ing-minion
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.org/mergeable-ingress-type: minion
+  namespace: openmole
+spec:
+  rules:
+  - host: kb-openmole.iscpif.fr
+    http:
+      paths:
+      - path: /johndoe
+        backend:
+          serviceName: openmole-johndoe-svc
+          servicePort: 20000

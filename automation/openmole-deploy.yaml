@@ -1,0 +1,71 @@
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: openmole-$USERNAME
+  namespace: openmole
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openmole-$USERNAME
+  template:
+    metadata:
+      labels:
+        app: openmole-$USERNAME
+    spec:
+      containers:
+      - name: openmole-$USERNAME
+        image: openmole/openmole:8.0-SNAPSHOT
+        command:
+          - "bin/bash"
+          - "-c"
+          - "openmole --port 8443 --http --remote --http-sub-directory $USERNAME"
+        ports:
+        - containerPort: 8443
+          protocol: TCP
+        resources: {}
+        imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "2048Mi"
+          limits:
+            memory: "4096Mi"
+h      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: openmole-$USERNAME-svc
+  namespace: openmole
+  labels:
+    app: openmole-$USERNAME-svc
+spec:
+  ports:
+  - name: http
+    protocol: TCP
+    port: 20000
+    targetPort: 8443
+  selector:
+    app: openmole-$USERNAME
+  type: NodePort
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: openmole-$USERNAME-ing-minion
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.org/mergeable-ingress-type: minion
+  namespace: openmole
+spec:
+  rules:
+  - host: kb-openmole.iscpif.fr
+    http:
+      paths:
+      - path: /$USERNAME
+        backend:
+          serviceName: openmole-$USERNAME-svc
+          servicePort: 20000
+---
