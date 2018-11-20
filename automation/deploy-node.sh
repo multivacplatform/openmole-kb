@@ -4,7 +4,7 @@ userName=$1
 echo "input userName: $1"
 export USERNAME=$userName
 echo "accepted userName: $USERNAME"
-envsubst < deploy-openmole.yaml | kubectl apply -f -
+envsubst < openmole-deploy.yaml | kubectl apply -f -
 
 for i in {1..2}
 do
