@@ -7,4 +7,4 @@ https://github.com/kubernetes/contrib/
 
 ## Copyright and License
 
-Code and documentation copyright (c) 2018 [ISCPIF - CNRS](http://iscpif.fr). Code released under the [AGPL v3 license](https://github.com/multivacplatform/openmole-kb/blob/master/LICENSE).
+Code and documentation copyright (c) 2018-2019 [ISCPIF - CNRS](http://iscpif.fr). Code released under the [AGPL v3 license](https://github.com/multivacplatform/openmole-kb/blob/master/LICENSE).
